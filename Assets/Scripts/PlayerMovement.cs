@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class NewBehaviourScript : MonoBehaviour
+public class PlayerMovement: MonoBehaviour
 {
     public float speed;
     private Rigidbody2D rigidbody2D;
@@ -13,6 +13,7 @@ public class NewBehaviourScript : MonoBehaviour
     void Start()
     {
         rigidbody2D = GetComponent<Rigidbody2D>();
+        animator = GetComponent<Animator>();
     }
 
     // Update is called once per frame
@@ -21,10 +22,24 @@ public class NewBehaviourScript : MonoBehaviour
         change = Vector2.zero;
         change.x = Input.GetAxisRaw("Horizontal");
         change.y = Input.GetAxisRaw("Vertical");
+        updateAnimationAndMove();
+    }
+
+    void updateAnimationAndMove()
+    {
         if (change != Vector3.zero)
         {
             MoveCharacter();
+            animator.SetFloat("moveX", change.x);
+            animator.SetFloat("moveY", change.y);
+            animator.SetBool("moving", true);
+
         }
+        else
+        {
+            animator.SetBool("moving", false);
+        }
+
     }
 
 
